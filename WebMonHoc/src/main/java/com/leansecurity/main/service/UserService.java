@@ -4,5 +4,8 @@ import com.leansecurity.main.model.User;
 
 public interface UserService {
 	void save(User user);
-	 User findByEmail(String email);
+
+	User findByEmail(String email);
+
+	boolean existsByEmail(String email);
 }
