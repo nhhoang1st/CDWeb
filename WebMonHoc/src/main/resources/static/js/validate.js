@@ -131,6 +131,7 @@ $(document)
 							error_dienThoai = true;
 						}
 					}
+				
 
 					$("#registerForm").submit(
 							function(event) {
@@ -155,4 +156,7 @@ $(document)
 									return false;
 								}
 							});
-				});
+					  // =========================================================================
+					
+					
+});

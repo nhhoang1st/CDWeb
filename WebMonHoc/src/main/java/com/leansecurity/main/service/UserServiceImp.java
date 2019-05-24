@@ -39,4 +39,14 @@ public class UserServiceImp implements UserService {
 		return userRepository.findByEmail(email);
 	}
 
+	@Override
+	public boolean existsByEmail(String email) {
+		for (User u : userRepository.findAll()) {
+			if(u.getEmail().equalsIgnoreCase(email)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
