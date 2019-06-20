@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<script src="//cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<title>Ckfinder</title>
+</head>
+<body>
+	<div id="page-content-wrapper">
+		<textarea class="form-control" rows="5"
+			id="editor"></textarea>
+
+	</div>
+	<script>
+		$(document).ready(function() {
+			CKEDITOR.replace('editor', {
+				filebrowserImageBrowseUrl : 'images/user',
+				height : 400
+			});
+		});
+	</script>
+	
+</body>
+</html>

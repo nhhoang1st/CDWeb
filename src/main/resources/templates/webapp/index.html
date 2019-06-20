@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head th:replace="layout :: head"></head>
+
+<body>
+	<!-- ============================================================== -->
+	<!-- Preloader - style you can find in spinners.css -->
+	<!-- ============================================================== -->
+	<div class="preloader">
+		<div class="lds-ripple">
+			<div class="lds-pos"></div>
+			<div class="lds-pos"></div>
+		</div>
+	</div>
+	<!-- ============================================================== -->
+	<!-- Main wrapper - style you can find in pages.scss -->
+	<!-- ============================================================== -->
+	<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5"
+		data-sidebartype="full" data-sidebar-position="absolute"
+		data-header-position="absolute" data-boxed-layout="full">
+		<!-- ============================================================== -->
+		<!-- Topbar header - style you can find in pages.scss -->
+		<!-- ============================================================== -->
+		<header th:replace="layout :: header"></header>
+		<!-- ============================================================== -->
+		<!-- End Topbar header -->
+		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- Left Sidebar - style you can find in sidebar.scss  -->
+		<!-- ============================================================== -->
+		<aside th:replace="layout :: sidebar"></aside>
+		<!-- ============================================================== -->
+		<!-- End Left Sidebar - style you can find in sidebar.scss  -->
+		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- Page wrapper  -->
+		<!-- ============================================================== -->
+		<div class="page-wrapper">
+			<!-- ============================================================== -->
+			<!-- Bread crumb and right sidebar toggle -->
+			<!-- ============================================================== -->
+			<div class="page-breadcrumb">
+				<div class="row align-items-center">
+					<div class="col-12">
+						<h4 class="page-title">Tổng quan</h4>
+						<div class="d-flex align-items-center">
+							<nav aria-label="breadcrumb">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+									<li class="breadcrumb-item active" aria-current="page"></li>
+								</ol>
+							</nav>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Bread crumb and right sidebar toggle -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- Container fluid  -->
+			<!-- ============================================================== -->
+			<div class="container-fluid">
+				<!-- ============================================================== -->
+				<!-- Sales chart -->
+				<!-- ============================================================== -->
+
+				<!-- ============================================================== -->
+				<!-- Sales chart -->
+				<!-- ============================================================== -->
+				<!-- ============================================================== -->
+				<!-- Table -->
+				<!-- ============================================================== -->
+				<div class="row">
+					<!-- column -->
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body cb1">
+								<!-- title -->
+								<div class="d-md-flex align-items-center">
+									<div>
+										<h3 class="card-title">Các lớp trong học kỳ</h3>
+									</div>
+								</div>
+								<!-- title -->
+							</div>
+							<div class="table-responsive">
+								<table class="table v-middle">
+									<thead>
+										<tr class="bg-light">
+											<th class="border-top-0">Môn học</th>
+											<th class="border-top-0">Giảng viên</th>
+											<th class="border-top-0">Ngày bắt đầu</th>
+											<th class="border-top-0">Ngày kết thúc</th>
+											<th class="border-top-0">Thao tác</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:if="${listMh.empty}">
+											<td colspan="2">Không có môn học</td>
+										</tr>
+										<tr th:each="mh : ${listMh}">
+											<td>
+												<div class="d-flex align-items-center">
+													<div class="m-r-10">
+														<a class="btn btn-circle btn-info text-white"
+															th:text="${mh.tenrutgon}"></a>
+													</div>
+													<div class="">
+														<h4 class="m-b-0 font-16" th:text="${mh.tenmh}"></h4>
+													</div>
+												</div>
+											</td>
+											<td th:text="${accountName}"></td>
+											<td><label class="label label-danger"
+												th:text="${mh.ngaybd}"></label></td>
+											<td><label class="label label-danger"
+												th:text="${mh.ngaykt}"></label></td>
+
+											<td>
+												<button th:id="${mh.idmh}" type="button"
+													th:value="${mh.idmh}" class="btn btn-warning btnDetail">Chi
+													tiết</button>
+													</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- ============================================================== -->
+				<!-- Table -->
+				<!-- ============================================================== -->
+				<!-- ============================================================== -->
+				<!-- Recent comment and chats -->
+				<!-- ============================================================== -->
+				<div class="row">
+					<!-- column -->
+					<div class="col-lg-6">
+						<div class="card">
+							<div class="card-body cb1">
+								<h4 class="card-title">Thông báo của bạn</h4>
+								<div sec:authorize="hasAuthority('ADMIN')">
+									<button
+										onclick="document.getElementById('id01').style.display='block'"
+										class="w3-button w3-teal">Thêm thông báo</button>
+								</div>
+							</div>
+							<div class="comment-widgets scrollable"
+								th:each="thongBao : ${listTB}">
+								<!-- Comment Row -->
+								<div class="d-flex flex-row comment-row m-t-0 row">
+
+									<div class="comment-text w-100 col-lg-10">
+										<a href="" th:id="${thongBao.idtb}" th:value="${thongBao.idtb}" class="btnTb"><p class="tua" >
+												<span class="tua2" th:text="${thongBao.tieude}"></span>...<i
+													th:text="${thongBao.ngaytb}"></i>
+											</p></a>
+									</div>
+									<div sec:authorize="hasAuthority('ADMIN')" class="col-lg-2">
+										<a th:href="@{/admin/{id}/deleteTb(id=${thongBao.idtb})}"><i
+											style="color: red;" title="Xóa thông báo" class="fa fa-trash"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- column -->
+					<div class="col-lg-6">
+						<div class="card">
+							<div class="card-body cb1">
+								<h4 class="card-title">Temp Guide</h4>
+							</div>
+							<div class="d-flex align-items-center flex-row m-t-30">
+								<div class="display-5 text-info">
+									<i class="wi wi-day-showers"></i> <span>73<sup>°</sup></span>
+								</div>
+								<div class="m-l-10">
+									<h3 class="m-b-0">Saturday</h3>
+									<small>Ahmedabad, India</small>
+								</div>
+							</div>
+							<table class="table no-border mini-table m-t-20">
+								<tbody>
+									<tr>
+										<td class="text-muted">Wind</td>
+										<td class="font-medium">ESE 17 mph</td>
+									</tr>
+									<tr>
+										<td class="text-muted">Humidity</td>
+										<td class="font-medium">83%</td>
+									</tr>
+									<tr>
+										<td class="text-muted">Pressure</td>
+										<td class="font-medium">28.56 in</td>
+									</tr>
+									<tr>
+										<td class="text-muted">Cloud Cover</td>
+										<td class="font-medium">78%</td>
+									</tr>
+								</tbody>
+							</table>
+							<ul class="row list-style-none text-center m-t-30">
+								<li class="col-3">
+									<h4 class="text-info">
+										<i class="wi wi-day-sunny"></i>
+									</h4> <span class="d-block text-muted">09:30</span>
+									<h3 class="m-t-5">
+										70<sup>°</sup>
+									</h3>
+								</li>
+								<li class="col-3">
+									<h4 class="text-info">
+										<i class="wi wi-day-cloudy"></i>
+									</h4> <span class="d-block text-muted">11:30</span>
+									<h3 class="m-t-5">
+										72<sup>°</sup>
+									</h3>
+								</li>
+								<li class="col-3">
+									<h4 class="text-info">
+										<i class="wi wi-day-hail"></i>
+									</h4> <span class="d-block text-muted">13:30</span>
+									<h3 class="m-t-5">
+										75<sup>°</sup>
+									</h3>
+								</li>
+								<li class="col-3">
+									<h4 class="text-info">
+										<i class="wi wi-day-sprinkle"></i>
+									</h4> <span class="d-block text-muted">15:30</span>
+									<h3 class="m-t-5">
+										76<sup>°</sup>
+									</h3>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ============================================================== -->
+			<!-- Recent comment and chats -->
+			<!-- ============================================================== -->
+		</div>
+		
+		<!-- --------------------------Chi tiet mon hoc-------------------------------------------- -->
+			<div id="details" class="w3-modal">
+				<div class="w3-modal-content">
+					<div class="w3-container w3-teal">
+						<span
+							onclick="document.getElementById('details').style.display='none'"
+							class="w3-button w3-display-topright">&times;</span>
+						<h2>Chi tiết môn học</h2>
+					</div>
+					<div class="w3-container">
+						<div id="chitiet"></div>
+					</div>
+				</div>
+			</div>
+		<!-- ============================================================== -->
+		<!-- End Container fluid  -->
+		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- footer -->
+		<!-- ============================================================== -->
+		<footer th:replace="layout :: footer"> </footer>
+		<!-- ============================================================== -->
+		<!-- End footer -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Page wrapper  -->
+	<!-- ============================================================== -->
+	<div id="id01" class="w3-modal">
+		<div class="w3-modal-content">
+			<div class="w3-container w3-teal">
+				<span onclick="document.getElementById('id01').style.display='none'"
+					class="w3-button w3-display-topright">&times;</span>
+				<h2>Thêm thông báo</h2>
+			</div>
+			<div class="w3-container">
+				<form action="#" style="padding: 35px;"
+					th:action="@{/admin/addThongBao}" th:object="${newTB}"
+					method="POST">
+					<div class="form-group">
+						<label for="email">Tiêu đề: </label> <input th:field="*{tieude}" required
+							type="text" class="form-control" id="#" placeholder="Nội dung">
+					</div>
+					<div class="form-group">
+						<label for="email">Lớp thông báo: </label> <select id="id_mh"
+							name="id_mh">
+							<option th:each="mh : ${listMh}" th:value="${mh.idmh}"
+								th:text="${mh.tenrutgon}"></option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="pwd">Nội dung thông báo:</label>
+						<textarea th:field="*{noidung}" th:fragment="editor"
+							class="form-control" rows="5" id="editor"></textarea>
+					</div>
+					<button style="padding: 10px 35px 10px 35px;" type="submit"
+						class="btn btn-primary">Gửi</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- End Wrapper -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- All Jquery -->
+	<!-- ============================================================== -->
+	<script th:replace="layout :: ckeditor"></script>
+	<script src="../libs/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap tether Core JavaScript -->
+	<script src="../libs/popper.js/dist/umd/popper.min.js"></script>
+	<script src="../libs/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="../js/app-style-switcher.js"></script>
+	<!--Wave Effects -->
+	<script src="../js/waves.js"></script>
+	<!--Menu sidebar -->
+	<script src="../js/sidebarmenu.js"></script>
+	<!--Custom JavaScript -->
+	<script src="../js/custom.js"></script>
+	<script src="../js/ajaxDetail.js"></script>
+	<!--This page JavaScript -->
+	<!--chartis chart-->
+	<script src="../libs/chartist/dist/chartist.min.js"></script>
+	<script
+		src="../libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+	<script src="../js/pages/dashboards/dashboard1.js"></script>
+</body>
+
+</html>

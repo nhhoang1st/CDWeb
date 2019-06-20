@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head th:replace="layout :: head"></head>
+
+<body>
+	<!-- ============================================================== -->
+	<!-- Preloader - style you can find in spinners.css -->
+	<!-- ============================================================== -->
+	<div class="preloader">
+		<div class="lds-ripple">
+			<div class="lds-pos"></div>
+			<div class="lds-pos"></div>
+		</div>
+	</div>
+	<!-- ============================================================== -->
+	<!-- Main wrapper - style you can find in pages.scss -->
+	<!-- ============================================================== -->
+	<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5"
+		data-sidebartype="full" data-sidebar-position="absolute"
+		data-header-position="absolute" data-boxed-layout="full">
+		<!-- ============================================================== -->
+		<!-- Topbar header - style you can find in pages.scss -->
+		<!-- ============================================================== -->
+		<header th:replace="layout :: header"></header>
+		<!-- ============================================================== -->
+		<!-- End Topbar header -->
+		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- Left Sidebar - style you can find in sidebar.scss  -->
+		<!-- ============================================================== -->
+		<aside th:replace="layout :: sidebar"></aside>
+		<!-- ============================================================== -->
+		<!-- End Left Sidebar - style you can find in sidebar.scss  -->
+		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- Page wrapper  -->
+		<!-- ============================================================== -->
+		<div class="page-wrapper">
+			<!-- ============================================================== -->
+			<!-- Bread crumb and right sidebar toggle -->
+			<!-- ============================================================== -->
+			<div class="page-breadcrumb">
+				<div class="row align-items-center">
+					<div class="col-12">
+						<h4 class="page-title">Khóa học</h4>
+						<div class="d-flex align-items-center">
+							<nav aria-label="breadcrumb">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="#">Thông tin</a></li>
+									<li class="breadcrumb-item active" aria-current="page"></li>
+								</ol>
+							</nav>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Bread crumb and right sidebar toggle -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- Container fluid  -->
+			<!-- ============================================================== -->
+			<div class="container-fluid">
+				<!-- ============================================================== -->
+				<!-- Start Page Content -->
+				<!-- ============================================================== -->
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body cb1">
+								<!-- title -->
+								<div class="d-md-flex align-items-center">
+									<div>
+									<input th:value="${accountDetail.iduser}" type="hidden" id="idu">
+										<h3 class="card-title">Các lớp đã tham gia</h3>
+										<button sec:authorize="hasAuthority('ADMIN')" type="button"
+											class="btn btn-success"
+											onclick="document.getElementById('id01').style.display='block'">Thêm
+											khóa học</button>
+										<button type="button" class="btn btn-success" id="updateBtn">Cập
+											nhật</button>
+									</div>
+								</div>
+								<!-- title -->
+							</div>
+							<div class="table-responsive">
+							<div id = "daTG">
+								<table class="table v-middle" id="dataTable">
+									<thead>
+										<tr class="bg-light">
+											<th class="border-top-0">Môn học</th>
+											<th class="border-top-0">Giảng viên</th>
+											<th class="border-top-0">Ngày bắt đầu</th>
+											<th class="border-top-0">Ngày kết thúc</th>
+											<th class="border-top-0">Thao tác</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:if="${listMh.empty}">
+											<td colspan="2">Không có môn học</td>
+										</tr>
+										<tr th:each="mh : ${listMh}">
+											<td>
+												<div class="d-flex align-items-center">
+													<div class="m-r-10">
+														<a class="btn btn-circle btn-info text-white"
+															th:text="${mh.tenrutgon}"></a>
+													</div>
+													<div class="">
+														<h4 class="m-b-0 font-16" th:text="${mh.tenmh}"></h4>
+													</div>
+												</div>
+											</td>
+											<td th:text="${accountName}"></td>
+											<td><label class="label label-danger"
+												th:text="${mh.ngaybd}"></label></td>
+											<td><label class="label label-danger"
+												th:text="${mh.ngaykt}"></label></td>
+
+											<td><button type="button" class="btn btn-info">Sửa</button>
+												<button th:id="${mh.idmh}" type="button"
+													th:value="${mh.idmh}" class="btn btn-warning btnDetail">Chi
+													tiết</button> 
+													<a th:href="@{/admin/{id}/delete(id=${mh.idmh})}"><button sec:authorize="hasAuthority('ADMIN')"
+														type="button" class="btn btn-danger">Xóa</button></a></td>
+										</tr>
+
+									</tbody>
+								</table>
+								</div>
+							</div>
+						</div>
+						<nav aria-label="Page navigation example">
+							<ul class="pagination">
+								<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+								<li class="page-item"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item"><a class="page-link" href="#">Next</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<div class="row" sec:authorize="hasAuthority('USER')">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body cb1">
+								<!-- title -->
+								<div class="d-md-flex align-items-center">
+									<div>
+										<h3 class="card-title">Các lớp mở trong học kỳ</h3>
+										<button id="updateBtn2" type="button" class="btn btn-success">Cập
+											nhật</button>
+									</div>
+								</div>
+								<!-- title -->
+							</div>
+							<div class="table-responsive"><div id="chuaTG">
+								<table class="table v-middle" id="dataTable">
+								
+									<thead>
+										<tr class="bg-light">
+											<th class="border-top-0">Môn học</th>
+											<th class="border-top-0">Ngày bắt đầu</th>
+											<th class="border-top-0">Ngày kết thúc</th>
+											<th class="border-top-0">Thao tác</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:if="${listAllMh.empty}">
+											<td colspan="2">Không có môn học</td>
+										</tr>
+										<tr th:each="mha : ${listAllMh}">
+											<td>
+												<div class="d-flex align-items-center">
+													<div class="m-r-10">
+														<a class="btn btn-circle btn-info text-white"
+															th:text="${mha.tenrutgon}"></a>
+													</div>
+													<div class="">
+														<h4 class="m-b-0 font-16" th:text="${mha.tenmh}"></h4>
+													</div>
+												</div>
+											</td>
+											<td><label class="label label-danger"
+												th:text="${mha.ngaybd}"></label></td>
+											<td><label class="label label-danger"
+												th:text="${mha.ngaykt}"></label></td>
+
+											<td><button th:id="${accountDetail.iduser}" th:value="${mha.idmh}" type="button" class="btn btn-info btnJoinClass">Tham gia</button>
+												<button th:id="${mha.idmh}" type="button"
+													th:value="${mha.idmh}" class="btn btn-warning btnDetail">Chi
+													tiết</button> 
+										</tr>
+
+									</tbody>
+								</table>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- ============================================================== -->
+			<!-- End PAge Content -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<div id="id01" class="w3-modal">
+				<div class="w3-modal-content">
+					<div class="w3-container w3-teal">
+						<span
+							onclick="document.getElementById('id01').style.display='none'"
+							class="w3-button w3-display-topright">&times;</span>
+						<h2>Thêm môn học</h2>
+					</div>
+					<div class="w3-container">
+						<form id="formAddMH" action="#" th:action="@{/admin/addmonhoc}"
+							th:object="${monhoc}" style="padding: 35px;" method="Post">
+							<div class="form-group">
+								<label for="email">Tên môn hoc: </label> <input
+									th:field="*{tenmh}" type="text" class="form-control" id="#" required
+									placeholder="Nội dung">
+							</div>
+							<div class="form-group">
+								<label for="email">Tên rút gọn: </label> <input
+									th:field="*{tenrutgon}" type="text" class="form-control" id="#" required
+									placeholder="Nội dung">
+							</div>
+							<div class="form-group">
+								<label for="email">Mục môn học: </label> <select
+									th:field="*{mucmh}">
+									<option value="">Chọn khóa ...</option>
+									<option value="hk1-18-19">Học kỳ 1 năm 2018-2019</option>
+									<option value="hk2-18-19">Học kỳ 2 năm 2018-2019</option>
+									<option value="hk3-18-19">Học kỳ 3 năm 2018-2019</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="pwd">Mô tả :</label>
+								<textarea th:fragment="editor" th:field="*{mota}"
+									class="form-control" rows="5" id="editor"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="pwd">Ngày bắt đầu :</label> <input required
+									th:field="*{ngaybd}" type="date" id="inputDate"
+									class="form-control" placeholder="Select Date"><br>
+							</div>
+							<div class="form-group">
+								<label for="pwd">Ngày kết thúc :</label> <input required
+									th:field="*{ngaykt}" type="date" id="inputDate"
+									class="form-control" placeholder="Select Date"><br>
+							</div>
+							<button style="padding: 10px 35px 10px 35px;" type="submit"
+								class="btn btn-primary">Gửi</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- --------------------------Chi tiet mon hoc-------------------------------------------- -->
+			<div id="details" class="w3-modal">
+				<div class="w3-modal-content">
+					<div class="w3-container w3-teal">
+						<span
+							onclick="document.getElementById('details').style.display='none'"
+							class="w3-button w3-display-topright">&times;</span>
+						<h2>Chi tiết môn học</h2>
+					</div>
+					<div class="w3-container">
+						<div id="chitiet"></div>
+					</div>
+				</div>
+			</div>
+			<!-- ============================================================== -->
+			<!-- .right-sidebar -->
+			<!-- ============================================================== -->
+			<!-- End Right sidebar -->
+			<!-- ============================================================== -->
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Container fluid  -->
+		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- footer -->
+		<!-- ============================================================== -->
+		<footer th:replace="layout :: footer"> </footer>
+		<!-- ============================================================== -->
+		<!-- End footer -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Page wrapper  -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- End Wrapper -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- All Jquery -->
+	<!-- ============================================================== -->
+	<script th:text="${success}" type="text/javascript"></script>
+	<script th:replace="layout :: ckeditor"></script>
+	<script src="../libs/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap tether Core JavaScript -->
+	<script src="../libs/popper.js/dist/umd/popper.min.js"></script>
+	<script src="../libs/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="../js/app-style-switcher.js"></script>
+	<!--Wave Effects -->
+	<script src="../js/waves.js"></script>
+	<!--Menu sidebar -->
+	<script src="../js/sidebarmenu.js"></script>
+	<!--Custom JavaScript -->
+	<script src="../js/custom.js"></script>
+	<script src="../js/ajaxDetail.js"></script>
+	<script>
+		$('#dtBasicExample').mdbEditor({
+			mdbEditor : true
+		});
+		$('.dataTables_length').addClass('bs-select');
+	</script>
+	<script>
+		$(document).ready(function() {
+			$("#formAddMH1").submit(function(event) {
+				event.preventDefault();
+				ajaxPost();
+			});
+		});
+		function ajaxPost() {
+
+			$.ajax({
+				type : "POST",
+				contentType : "application/json",
+				url : "/admin/checkadd",
+				dataType : 'json',
+				success : function(result) {
+					if (result.mes === 'true') {
+						alert('Thêm thành công');
+
+					} else {
+						alert('Thêm thất bại');
+					}
+					console.log("success: ", result.mes);
+				},
+				error : function(e) {
+
+					console.log("ERROR : ", e);
+
+				}
+			});
+		}
+	</script>
+</body>
+
+</html>
